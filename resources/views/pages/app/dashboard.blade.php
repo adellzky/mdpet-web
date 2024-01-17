@@ -27,7 +27,7 @@
                                 <h4>Total Customer</h4>
                             </div>
                             <div class="card-body">
-                                <p>{{App\Models\User::jmlCust()}}</p>
+                                {{App\Models\User::jmlCust()}}
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                 <h4>Grooming</h4>
                             </div>
                             <div class="card-body">
-                                <p> {{App\Models\Product::groomingStok() }}</p>
+                                 {{App\Models\Product::jmlStok('Grooming') }}
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                                 <h4>Vaksin</h4>
                             </div>
                             <div class="card-body">
-                                <p> {{App\Models\Product::vaksinStok() }}</p>
+                                 {{App\Models\Product::jmlStok('Vaksin') }}
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                                 <h4>Product</h4>
                             </div>
                             <div class="card-body">
-                                47
+                                {{App\Models\Product::jmlProduk()}}
                             </div>
                         </div>
                     </div>

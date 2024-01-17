@@ -14,6 +14,7 @@ class Order extends Model
     protected $fillable = [
         "id_cust",
         "id_product",
+        "jumlah_pembelian",
         "status_pesanan"
     ];
 

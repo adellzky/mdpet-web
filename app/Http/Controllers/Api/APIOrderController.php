@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,6 +66,7 @@ class APIOrderController extends Controller
             $validator = Validator::make($request->all(), [
                 "id_cust" => "required|numeric",
                 "id_product" => "required|numeric",
+                "jumlah_pembelian" => "required|numeric|min:1",
                 "status_pesanan" => "in:ditolak,belum_bayar,lunas",
             ]);
 
@@ -75,7 +77,16 @@ class APIOrderController extends Controller
                 ]);
             }
 
+            $product = Product::find($request->id_product);
+            $total_harga = $request->jumlah_pembelian * $product->price;
+
+            $request['jumlah_pembelian'] = $request->jumlah_pembelian;
+            $request['total_harga'] = $total_harga;
             $request['status_pesanan'] = "belum_bayar";
+
+            $product->update([
+                'stok' => $product->stok - $request->jumlah_pembelian
+            ]);
 
             Order::create($request->all());
 
@@ -97,8 +108,17 @@ class APIOrderController extends Controller
         try {
             $order = Order::where('id_orders', '=', $id)->first();
 
+            $product = Product::find($order->id_product);
+            $total_harga = $request->jumlah_pembelian * $product->price;
+
             $order->update([
+                "jumlah_pembelian" => $request->jumlah_pembelian,
+                "total_harga" => $total_harga,
                 "status_pesanan" => $request->status_pesanan
+            ]);
+
+            $product->update([
+                'stok' => $product->stok + $order->jumlah_pembelian - $request->jumlah_pembelian
             ]);
 
             return response()->json([

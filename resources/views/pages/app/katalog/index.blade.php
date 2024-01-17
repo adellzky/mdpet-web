@@ -14,8 +14,8 @@
                 <div class="col-12 col-sm-6 col-md-6 col-lg-3">
                     <article class="article">
                         <div class="article-header">
-                            <div class="article-image" >
-                            <img src="{{asset('product/'. $products->image)}}" alt=""></div>
+                            <div class="article-image"
+                                style="background-image: url('{{ asset('products/'. $products->image) }}')">></div>
                             <div class="article-title">
                                 <h2>{{ $products->name }}</h2>
                             </div>

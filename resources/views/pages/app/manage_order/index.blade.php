@@ -51,7 +51,9 @@
                                     <th class="text-center">Nama</th>
                                     <th class="text-center">Pesanan</th>
                                     <th class="text-center">Kategori</th>
+                                    <th class="text-center">Jumlah Pembelian</th>
                                     <th class="text-center">Harga</th>
+                                    <th class="text-center">Total</th>
                                     <th class="text-center">Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -59,42 +61,41 @@
                                     @php
                                         $i = 0;
                                     @endphp
-                                    @foreach ($orders as $itm)
+                                    @foreach ($orders as $order)
                                         <tr>
                                             <td class="text-center">{{ ++$i }}</td>
-                                            <td class="text-center">{{ $itm['users']['name'] }}</td>
-                                            <td class="text-center">{{ $itm['products']['name'] }}</td>
-                                            <td class="text-center">{{ $itm['products']['category'] }}</td>
-                                            <td class="text-center">{{ $itm['products']['price'] }}</td>
+                                            <td class="text-center">{{ $order['users']['name'] }}</td>
+                                            <td class="text-center">{{ $order['products']['name'] }}</td>
+                                            <td class="text-center">{{ $order['products']['category'] }}</td>
+                                            <td class="text-center">{{ $order['jumlah_pembelian'] }}</td>
+                                            <td class="text-center">{{ $order['products']['price'] }}</td>
+                                            <td class="text-center">{{ $order['total_harga'] }}</td>
                                             <td class="text-center">
-                                                @if ($itm['status_pesanan'] == 'belum_bayar')
+                                                @if ($order['status_pesanan'] == 'belum_bayar')
                                                     <p style="font-weight: 700; width: max-content;margin: auto ;padding: 3px 23px; border-radius: 10px"
                                                         class="bg-secondary">Pesanan belum dibayar</p>
-                                                @elseif($itm['status_pesanan'] == 'ditolak')
+                                                @elseif($order['status_pesanan'] == 'ditolak')
                                                     <p style="font-weight: 700; width: max-content;margin: auto ;padding: 3px 23px; border-radius: 10px"
                                                         class="bg-danger text-white">Pesanan di tolak</p>
-                                                @elseif($itm['status_pesanan'] == 'lunas')
+                                                @elseif($order['status_pesanan'] == 'lunas')
                                                     <p style="font-weight: 700; width: max-content;margin: auto ;padding: 3px 23px; border-radius: 10px"
                                                         class="bg-success text-white">
                                                         Lunas
                                                     </p>
                                                 @endif
                                             </td>
-                                            @if ($itm['status_pesanan'] == 'belum_bayar')
+                                            @if ($order['status_pesanan'] == 'belum_bayar')
                                                 <td class="d-flex flex-column gap-2">
-                                                    <form action="/orders/{{ $itm['id_orders'] }}" method="post">
+                                                    <form action="/orders/{{ $order['id_orders'] }}" method="post">
                                                         @csrf
-                                                        @method('POST')
-                                                        <input class="d-none" type="text" value="lunas"
-                                                            name="status_pesanan" id="status_pesanan">
-                                                        <button type="submit" class="btn mb-2 btn-success">Pesanan
-                                                            Lunas</button>
+                                                        @method('PUT')
+                                                        <input class="d-none" type="text" value="lunas" name="status_pesanan" id="status_pesanan">
+                                                        <button type="submit" class="btn mb-2 btn-success">Pesanan Lunas</button>
                                                     </form>
-                                                    <form action="/orders/{{ $itm['id_orders'] }}" method="post">
+                                                    <form action="/orders/{{ $order['id_orders'] }}" method="post">
                                                         @csrf
-                                                        @method('POST')
-                                                        <input class="d-none" type="text" value="ditolak"
-                                                            name="status_pesanan" id="status_pesanan">
+                                                        @method('PUT')
+                                                        <input class="d-none" type="text" value="ditolak" name="status_pesanan" id="status_pesanan">
                                                         <button type="submit" class="btn btn-danger">Tolak Pesanan</button>
                                                     </form>
                                                 </td>

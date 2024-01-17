@@ -20,14 +20,29 @@ class Product extends Model
         'image',
     ];
 
-    public static function groomingStok()
+    public static function jmlStok($category)
     {
-        return self::where('category', 'grooming')->sum('stok');
+        return self::where('category', $category)->sum('stok');
     }
 
-    public static function vaksinStok()
+    public static function jmlProduk()
     {
-        return self::where('category', 'vaksin')->sum('stok');
+        return self::where('category', 'item')->count();
+    }
+
+    public function getQuantityAttribute()
+    {
+        return $this->stok;
+    }
+
+    public function getTotalPriceAttribute()
+    {
+        return $this->stok * $this->price;
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->attributes['price'];
     }
 
 }
