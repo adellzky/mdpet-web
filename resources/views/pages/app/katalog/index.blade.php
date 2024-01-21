@@ -15,12 +15,13 @@
                     <article class="article">
                         <div class="article-header">
                             <div class="article-image"
-                                style="background-image: url('{{ asset('products/'. $products->image) }}')">></div>
-                            <div class="article-title">
-                                <h2>{{ $products->name }}</h2>
+                                style="background-image: url('{{ asset($products->image) }}')">
                             </div>
                         </div>
                         <div class="article-details">
+                            <div class="article-title">
+                                <h2>{{ $products->name }}</h2>
+                            </div>
                             {{-- <p>{{ $products->deskripsi }}</p> --}}
                             <div class="article-cta">
                                 <a href="#" class="btn btn-primary">IDR {{ $products->price }}</a>

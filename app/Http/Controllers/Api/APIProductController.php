@@ -74,8 +74,6 @@ class APIProductController extends Controller
                 $file = $request->file('image');
                 $fileName = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('/product'), $fileName);
-
-                $data['image'] = $fileName;
             }
 
             $create =  Product::create([

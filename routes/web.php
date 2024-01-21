@@ -1,10 +1,8 @@
 <?php
 
-use App\Http\Controllers\API\GroomingController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ItemController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PostController;
@@ -28,12 +26,16 @@ use function PHPSTORM_META\type;
 //     return view('welcome');
 // });
 
+
+
+
 Route::get('/', function () {
     return view('pages.auth.auth-login');
 });
 
-Route::group(['middleware' => 'role:admin'], function () {
-    Route::get('home', [HomeController::class, 'index'])->name('home');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::resource('katalogs', KatalogController::class);
     Route::get('/products/add', [ProductController::class, 'add']);
     Route::get('/orders', [OrderController::class, 'index']);
@@ -66,7 +68,3 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::post('/comments/{id}', [CommentController::class, 'update']);
     Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
 });
-
-// Route::get('item', function () {
-//     return view('item', ['type_menu' => 'item']);
-// })->name('item');

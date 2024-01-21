@@ -66,7 +66,7 @@ class APIOrderController extends Controller
             $validator = Validator::make($request->all(), [
                 "id_cust" => "required|numeric",
                 "id_product" => "required|numeric",
-                "jumlah_pembelian" => "required|numeric|min:1",
+                "jumlah_pembelian" => "required|numeric",
                 "status_pesanan" => "in:ditolak,belum_bayar,lunas",
             ]);
 

@@ -88,13 +88,13 @@
                                                 <td class="d-flex flex-column gap-2">
                                                     <form action="/orders/{{ $order['id_orders'] }}" method="post">
                                                         @csrf
-                                                        @method('PUT')
+                                                        @method('POST')
                                                         <input class="d-none" type="text" value="lunas" name="status_pesanan" id="status_pesanan">
                                                         <button type="submit" class="btn mb-2 btn-success">Pesanan Lunas</button>
                                                     </form>
                                                     <form action="/orders/{{ $order['id_orders'] }}" method="post">
                                                         @csrf
-                                                        @method('PUT')
+                                                        @method('POST')
                                                         <input class="d-none" type="text" value="ditolak" name="status_pesanan" id="status_pesanan">
                                                         <button type="submit" class="btn btn-danger">Tolak Pesanan</button>
                                                     </form>

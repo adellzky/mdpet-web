@@ -14,8 +14,9 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action="{{route('login')}}" class="needs-validation" novalidate="">
+            <form method="POST" action="http://localhost:8001/login" class="needs-validation" novalidate="">
                 @csrf
+                {{-- @method("POST") --}}
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input id="email" type="email" class="form-control" name="email" tabindex="1" required
@@ -54,7 +55,7 @@
                 </div>
             </form>
             <div class="text-muted mt-5 text-center">
-                Don't have an account? <a href="{{ route('register') }}">Create Account</a>
+                Don't have an account? <a href="/register">Create Account</a>
             </div>
         </div>
     </div>

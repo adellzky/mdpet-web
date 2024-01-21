@@ -19,7 +19,7 @@ class checkRole
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-        if (Auth::user()->role !== $role) {
+        if (Auth::user()->role !== "admin") {
             return redirect('/')->with('error', 'Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
 

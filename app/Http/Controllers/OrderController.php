@@ -11,17 +11,13 @@ class OrderController extends Controller
     {
         $client = new Client();
 
-        $queryParams = [
-            'month' => request('month'),
-            'year' => request('year'),
-            'category' => request('category'),
-        ];
-
-        $response = $client->request("GET", 'http://localhost:8000/api/orders', [
-            'query' => $queryParams,
-        ]);
-
-        $orders = json_decode($response->getBody(), true)['data'];
+        if (request('month') != null && request('year') != null && request('category') == "Semua") {
+            $orders = json_decode($client->request("GET", 'http://localhost:8000/api/orders?month=' . request('month') . '&year=' . request('year'))->getBody(), true)['data'];
+        } else if (request('month') != null && request('year') != null && request('category') != "Semua") {
+            $orders = json_decode($client->request("GET", 'http://localhost:8000/api/orders?month=' . request('month') . '&year=' . request('year') . '&category=' . request('category'))->getBody(), true)['data'];
+        } else {
+            $orders = json_decode($client->request("GET", 'http://localhost:8000/api/orders')->getBody(), true)['data'];
+        }
 
         foreach ($orders as &$order) {
             $order['total_harga'] = $order['jumlah_pembelian'] * $order['products']['price'];
@@ -50,12 +46,12 @@ class OrderController extends Controller
         $client = new Client();
 
         $response = $client->request("POST", 'http://localhost:8000/api/orders', [
-            'form_params' => [
+            'multipart' => [
                 'id_cust' => $request->id_cust,
                 'id_product' => $request->id_product,
                 'jumlah_pembelian' => $request->jumlah_pembelian,
-                'total_harga' => $request->total_harga,
-                'status_pesanan' => $request->status_pesanan,
+                'total_harga' => $request->total_harga
+
             ],
         ]);
 
@@ -83,10 +79,13 @@ class OrderController extends Controller
     {
         $client = new Client();
 
-        $response = $client->request("PUT", 'http://localhost:8000/api/orders/' . $id, [
-            'form_params' => [
-                'status_pesanan' => $request->status_pesanan,
-            ],
+        $response = $client->request("POST", 'http://localhost:8000/api/orders/' . $id, [
+            "multipart" => [
+                [
+                    "name" => "status_pesanan",
+                    "contents" => $request->status_pesanan
+                ],
+            ]
         ]);
 
         $result = json_decode($response->getBody(), true);
@@ -94,7 +93,6 @@ class OrderController extends Controller
         if ($result['status']) {
             return redirect('/orders')->with('success', 'Success');
         }
-
         return redirect('/orders')->with('failed', 'Failed');
     }
 
